@@ -3,24 +3,8 @@ import GridEngine, { Direction } from "grid-engine";
 import { Scene } from "phaser";
 import { ModalMessageHandler } from "./ModalMessageHandler";
 import { ObjectCollection } from "./ObjectCollection";
-
-Array.prototype.getGameObjProperty = function (propertyName: string): any {
-  const props = ['name', 'value', 'type']
-  if (!this.every(properties => {
-    return props.every(prop => prop in properties)
-  })) {
-    throw new Error('This is not an array of game object properties.')
-  }
-
-  let propVal: any;
-  this.forEach(prop => {
-    if (prop.name === propertyName) {
-      propVal = prop.value
-      return
-    }
-  })
-  return propVal
-}
+import { InteractionHandler } from "./InteractionHandler";
+import '../MyArrayFunc'
 
 export class SceneEventHandler {
   constructor(
@@ -28,10 +12,15 @@ export class SceneEventHandler {
     private gridEngine: GridEngine,
     private collectionHandler: ObjectCollection
   ) {
-
+    this.updatedMsgEventsNpc = this.collectionHandler.getCollectionOf('npc')
   }
-  
 
+  private interact!: InteractionHandler
+  private updatedMsgEventsNpc!: any[];
+
+  setInteractHandler(interactHandler: InteractionHandler) {
+    this.interact = interactHandler
+  }
 
   handleDoorEvent_Outside(doorCollection: any[]) {
     doorCollection.forEach(door => {
@@ -57,7 +46,7 @@ export class SceneEventHandler {
     eventPosCollection.forEach(pos => {
       if (
         this.gridEngine.getPosition('player').x === pos.x &&
-        this.gridEngine.getPosition('player').y === pos.y 
+        this.gridEngine.getPosition('player').y === pos.y
       ) {
         console.log(pos)
 
@@ -96,12 +85,16 @@ export class SceneEventHandler {
     })
   }
 
-  updateEventTrigger(eventId: string, newVal: boolean) {
+  updateEventTrigger(eventId: string | number, newVal: boolean) {
+    if (typeof eventId === 'number') {
+      this.collectionHandler.flagMap.set(eventId, newVal)
+    }
+
     this.collectionHandler.getCollectionOf('event-trigger')
-    .filterCollectionByProperty('event_id', eventId)
-    .forEach((event: { id: number; }) => {
-      this.collectionHandler.flagMap.set(event.id, newVal)
-    })
+      .filterCollectionByProperty('event_id', eventId)
+      .forEach((event: { id: number; }) => {
+        this.collectionHandler.flagMap.set(event.id, newVal)
+      })
   }
 
   activateEvent(eventId: string, modal: ModalMessageHandler) {
@@ -109,22 +102,23 @@ export class SceneEventHandler {
       case 'go-back-1': {
         modal.showModalMessage('You can\'t go there its dangerous::Go see prof oak for assitance')
         this.gridEngine.moveTo('player', { x: 28, y: 18 })
-        this.updateEventTrigger('go-back-2', true)
+
+        this.updateEventTrigger(this.collectionHandler.referenceEventNametoId('go-back-2'), true)
+        this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Oak', 'You can go now')
+        this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Blue', 'So you want to go on an adventure huh::Well good luck yo!')
         break;
       }
-
-      case 'go-back-2': {
-        modal.showModalMessage('You can now go outside::Happy adventuring')
-        this.updateEventTrigger('go-back-1', false)
-        this.updateEventTrigger('go-back-2', false)
-      }
     }
-
-    console.log(this.collectionHandler.flagMap)
   }
 
 
+  updatedNpcMsgEvent(npcCollection: any[], npc: string, msg: string) {
+    this.updatedMsgEventsNpc = npcCollection.changeNpcMessageProperty(npc, msg)
+  }
 
+  syncUpdatedNpcMsgEvents(){
+    return this.updatedMsgEventsNpc
+  }
 
 
 

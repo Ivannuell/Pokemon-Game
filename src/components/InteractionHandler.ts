@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import GridEngine, { Direction } from "grid-engine";
+import { ObjectCollection } from "./ObjectCollection";
+import { SceneEventHandler } from "./SceneEventManager";
 
 export class InteractionHandler {
 
   constructor(
     private scene: Phaser.Scene,
-    private gridEngine: GridEngine
+    private gridEngine: GridEngine,
+    private collectionHandler: ObjectCollection,
+    private eventHandler: SceneEventHandler
   ) {
 
   }
@@ -31,7 +35,7 @@ export class InteractionHandler {
       this.controllable = true
       console.log('controlls turned on')
     })
-    
+
     this.scene.events.addListener('off-controlls', () => {
       this.controllable = false
       console.log('controlls turned off')
@@ -56,7 +60,7 @@ export class InteractionHandler {
   }
 
   handleInteraction = () => {
-    this.signCollection.forEach((object: Phaser.Types.Tilemaps.TiledObject) => {
+    this.collectionHandler.getCollectionOf('mail').forEach((object: Phaser.Types.Tilemaps.TiledObject) => {
       if (
         this.gridEngine.getFacingPosition('player').x === object.x &&
         this.gridEngine.getFacingPosition('player').y === object.y &&
@@ -78,6 +82,13 @@ export class InteractionHandler {
         this.gridEngine.stopMovement(npc.name)
         this.current_action = 'afirm';
         this.InitObjectResponse(this.current_object_event)
+
+        //things to consider: 
+        // - Who is the npc 
+        // - Is the flag true
+
+        this.handleNpcInteractEvents(npc)
+
       }
     })
   }
@@ -122,20 +133,20 @@ export class InteractionHandler {
     this.MaxMessageIndex = 0;
     this.controllable = true;
     this.scene.scene.stop('messageBox')
-    
-    if (this.current_object_event.type === 'npc'){
+
+    if (this.current_object_event.type === 'npc') {
       this.gridEngine.moveRandomly(this.current_object_event.name, 2000, 5)
     }
-    
+
   }
 
-  setNpcCollection(npcCOllection: any[]) {
-    this.npcCollection = npcCOllection
+  setNpcCollection(npcCollection: any[]) {
+    this.npcCollection = npcCollection
   }
 
-  setSignCollection(signCOllection: any[]) {
-    this.signCollection = signCOllection
-  }
+  // setNpcMessages(npcs) {
+  //   this.
+  // }
 
   faceCharacterPosition(facingDriection: Direction): Direction {
     switch (facingDriection) {
@@ -154,6 +165,21 @@ export class InteractionHandler {
       default: {
         return Direction.NONE
       }
+    }
+  }
+
+  handleNpcInteractEvents(npc: any) {
+    switch (npc.name) {
+      case 'Oak': {
+        if (this.collectionHandler.flagMap.get(this.collectionHandler.referenceEventNametoId('go-back-2'))) {
+          
+          this.eventHandler.updateEventTrigger(this.collectionHandler.referenceEventNametoId('go-back-2'), false)
+          this.eventHandler.updateEventTrigger('go-back-1', false)
+        }
+
+        break
+      }
+
     }
   }
 }

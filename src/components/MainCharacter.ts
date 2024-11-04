@@ -1,5 +1,4 @@
 import { CharacterData } from "grid-engine";
-import { iCharacter } from "../interfaces/i_character";
 
 export enum characterMappings {
   'Blue',
@@ -8,7 +7,7 @@ export enum characterMappings {
   'Green'
 }
 
-export class MainCharacter implements iCharacter {
+export class MainCharacter {
   sprite: Phaser.GameObjects.Sprite
   
   constructor(

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import GridEngine from "grid-engine";
-
+import '../MyArrayFunc'
 
 
 export class ObjectCollection {
@@ -14,6 +14,28 @@ export class ObjectCollection {
 
   flagMap: Map<number, boolean> = new Map<number, boolean>
   bushSprites: Phaser.GameObjects.Sprite[] = []
+  eventList: { eventId: number, eventName: string, initValue: any }[] = [
+    { eventId: 10001, eventName: 'go-back-2', initValue: false }
+  ]
+
+  referenceIdtoEventName(id: number) {
+    const obj: { eventId: number, eventName: string, initValue: any }[] =
+      this.eventList.filter(e => {
+        return id === e.eventId
+      })
+
+    // return obj.eventName
+    return obj[0].eventName
+  }
+
+  referenceEventNametoId(eventName: string) {
+    const obj: { eventId: number, eventName: string, initValue: any }[] =
+      this.eventList.filter(e => {
+        return eventName === e.eventName
+      })
+
+    return obj[0].eventId
+  }
 
   getAllKeys() {
     const array: string[] = []
@@ -31,18 +53,28 @@ export class ObjectCollection {
     })
   }
 
-  updatedNpcCollectionPositions() {
-    return this.getCollectionOf('npc').map((npc: { name: string; }) => {
+  updatedNpcCollectionPositions(npcCollection: any[]) {
+    return npcCollection.map((npc: { name: string; }) => {
       return { ...npc, x: this.gridEngine.getPosition(npc.name).x, y: this.gridEngine.getPosition(npc.name).y }
     })
   }
+
+  // updateNpcCollectionMessages() {
+  //   return this.getCollectionOf('npc').map(npc => {
+  //     return {}
+  //   })
+  // }
 
   setPositionEventsToFlagMap() {
     this.getCollectionOf('event-trigger').forEach(event => {
       this.flagMap.set(event.id, event.properties.getGameObjProperty('active'))
     })
+  }
 
-    console.log(this.flagMap)
+  setNpcEventsToFlagMap() {
+    this.eventList.forEach(event => {
+      this.flagMap.set(event.eventId, event.initValue)
+    })
   }
 
   getEventsById(): any[] {

@@ -5,6 +5,7 @@ declare global {
     getGameObjProperty(string): any
     filterCollectionByProperty(string, any?): any
     filterByIdUsingFlagMap(Map): any[]
+    changeNpcMessageProperty(npcName: string, newMsg: string)
   }
 }
 

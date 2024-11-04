@@ -18,11 +18,6 @@ const config = {
                 plugin: GridEngine,
                 mapping: "gridEngine",
             },
-            // {
-            //   key: "animatedTiles",
-            //   Plugin: AnimatedTiles,
-            //   mapping: "animatedTiles"
-            // }
         ],
     },
     scale: {

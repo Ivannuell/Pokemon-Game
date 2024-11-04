@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Phaser from "phaser";
+import webFontLoader from 'webfontloader';
 
 export class MessageBox extends Phaser.Scene {
   label!: Phaser.GameObjects.Text;
@@ -23,6 +24,7 @@ export class MessageBox extends Phaser.Scene {
 
     this.message_modal = this.add.image(100, 0, 'message-box-1').setOrigin(0).setScale(1.8)
 
+    // this.label = this.add.bitmapText(150, 450, 'dialog-pokemon', '', 20);
     this.label = this.add.text(150, 450, '',
       {
         fontSize: '30px',
@@ -35,8 +37,16 @@ export class MessageBox extends Phaser.Scene {
     );
 
     this.typewriteText(this.message)
-  }
 
+    webFontLoader.load({
+      custom: {
+        families: ['"Pokemon Solid"']
+      },
+      active: () => {
+        this.label.setFontFamily("Pokemon Solid").setColor('#000000')
+      }
+    })
+  }
 
   typewriteText(text: string) {
     const length = text.length
@@ -53,12 +63,13 @@ export class MessageBox extends Phaser.Scene {
 
     this.BaseScene = this.game.scene.getScenes(true)[0]
   }
-  typewriteTextWrapped(text: string) {
-    const lines = this.label.getWrappedText(text);
-    const wrappedText = lines.join('\n')
 
-    this.typewriteText(wrappedText)
-  }
+  // typewriteTextWrapped(text: string) {
+  //   const lines = this.label.getWrappedText(text);
+  //   const wrappedText = lines.join('\n')
+
+  //   this.typewriteText(wrappedText)
+  // }
 
   update() {
     // console.log(this.time_event.getOverallProgress());

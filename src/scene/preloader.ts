@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+// import AnimatedTiles from "../../public/tiled/main"
 
 export class preloader extends Phaser.Scene {
 
@@ -21,18 +22,18 @@ export class preloader extends Phaser.Scene {
     this.load.image('bush-half')
     this.load.image('tall_grass')
     this.load.image('unused_grass')
-    this.load.image('waves')
-
+    
     // Sprites
     this.load.spritesheet('characters', 'characters.png', { frameWidth: 16, frameHeight: 21 })
     this.load.spritesheet('grass_tall', 'tall_grass.png', {frameWidth: 16, frameHeight: 16})
     this.load.spritesheet('grass_tall_2', 'unused_grass.png', {frameWidth: 16, frameHeight: 16})
+    this.load.spritesheet('waves', 'waves.png', {frameWidth: 16})
 
     // Components
     this.load.image('top-decors', 'maps/town-1-top-deco.png')
     this.load.image('message-box-1', 'Components/message-box-1.png')
-  }
 
+  }
   create() {
     // this.scene.start('RoomScene')
     this.scene.start('WorldScene')

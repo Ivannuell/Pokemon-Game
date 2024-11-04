@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import GridEngine, { Direction } from "grid-engine";
-import { iControls } from "../interfaces/i_controls"
 // import { ObjectCollection } from "./ObjectCollection";
 
 
-export class PlayerControls implements iControls {
+export class PlayerControls  {
   keyBindings!: {
     UP: number;
     DOWN: number;

@@ -1,7 +1,6 @@
 import Phaser from "phaser";
-import { iTilemap } from "../interfaces/i_tilemap";
 
-export class Map implements iTilemap {
+export class Map  {
   private _map!: Phaser.Tilemaps.Tilemap
 
   constructor(

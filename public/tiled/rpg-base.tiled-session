@@ -2,9 +2,10 @@
     "activeFile": "maps/town-1.json",
     "expandedProjectPaths": [
         "maps",
-        "rooms",
         "Components",
-        "."
+        ".",
+        "rooms",
+        "maps/tiledTemplates"
     ],
     "fileStates": {
         "": {
@@ -15,8 +16,8 @@
             "scale": 1.7753124999999998,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 170.9558176377398,
-                "y": 159.971835944376
+                "x": 159.6901953881359,
+                "y": 160.2534765006161
             }
         },
         "Components/message-box-1.json#message-frame-tileset": {
@@ -27,11 +28,11 @@
                 11,
                 13
             ],
-            "scale": 1.5,
-            "selectedLayer": 2,
+            "scale": 3,
+            "selectedLayer": 11,
             "viewCenter": {
-                "x": 257,
-                "y": 633.3333333333333
+                "x": 765.6666666666666,
+                "y": 799.8333333333333
             }
         },
         "maps/town-1.json#building-tileset": {
@@ -53,8 +54,8 @@
             "scale": 1.7753124999999998,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 168.13941207533884,
-                "y": 160.25347650061607
+                "x": 217.9897905298363,
+                "y": 160.2534765006161
             }
         },
         "maps/town-2.json#building-tileset": {
@@ -68,8 +69,8 @@
             "scale": 3.5506249999999997,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 79.84509769406796,
-                "y": 80.12673825030804
+                "x": 79.98591797218799,
+                "y": 80.12673825030805
             }
         },
         "rooms/room-1.json#indoor-tileset-npc-1": {
@@ -77,9 +78,12 @@
         }
     },
     "frame.defaultDuration": 300,
+    "last.exportedFilePath": "C:/Users/Ivann/Documents/repos/component-style-try/public/tiled/maps",
     "last.imagePath": "C:/Users/Ivann/Documents/repos/component-style-try/public/tiled",
+    "last.objectTemplatePath": "C:/Users/Ivann/Documents/repos/component-style-try/public/tiled/maps/tiledTemplates",
     "map.fixedSize": true,
     "map.height": 15,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.layerDataFormat": 3,
     "map.orientation": 1,
     "map.tileHeight": 32,

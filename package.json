@@ -13,8 +13,10 @@
     "vite": "^5.4.9"
   },
   "dependencies": {
+    "@types/webfontloader": "^1.6.38",
     "grid-engine": "^2.45.4",
     "phaser": "^3.85.2",
-    "phaser-animated-tiles": "^2.0.2"
+    "phaser-animated-tiles": "^2.0.2",
+    "webfontloader": "^1.6.28"
   }
 }
