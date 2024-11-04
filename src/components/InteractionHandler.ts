@@ -15,7 +15,6 @@ export class InteractionHandler {
   }
 
   npcCollection!: any[];
-  signCollection!: any[];
 
   lineCount = 0;
   lineShowed = 0;
@@ -27,7 +26,7 @@ export class InteractionHandler {
   currentMessageIndex: number = 0;
   MaxMessageIndex: number = 0;
 
-  controllable: boolean = true
+  private controllable = true
 
 
   toggleInteractable() {
