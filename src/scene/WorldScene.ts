@@ -59,9 +59,7 @@ export class WorldScene extends BaseScene {
     this.modal = new ModalMessageHandler(this)
     this.objectHandler = new ObjectHandler(this, this.gridEngine)
     this.eventHandler = new SceneEventHandler(this, this.gridEngine, this.collection)
-    this.interact = new InteractionHandler(this, this.gridEngine, this.collection, this.eventHandler)
-
-    this.eventHandler.setInteractHandler(this.interact)
+    this.interact = new InteractionHandler(this, this.gridEngine, this.collection)
 
 
     this.eventHandler.handleDoorEvent_Outside(this.collection.getCollectionOf('door-outside'))
@@ -100,16 +98,6 @@ export class WorldScene extends BaseScene {
       this.gridEngine.turnTowards('player', Direction.DOWN)
     })
 
-    console.log(this.collection.getEventsById().filterCollectionByProperty('active', true))
-
-    this.events.addListener('checkPosition', () => {
-      this.eventHandler.checkPositionEvent(this.collection.getCollectionOf('event-trigger').filterByIdUsingFlagMap(this.collection.flagMap), this.modal)
-
-      this.eventHandler.animateBushPosition(this.collection.getCollectionOf('bush'))
-      console.log(this.gridEngine.getMovement('player'))
-    }, this)
-
-
     // this.gridEngine.movementStarted().subscribe(({charId}) => {
     //   if (charId === 'player') {
     //   }
@@ -117,19 +105,24 @@ export class WorldScene extends BaseScene {
 
     this.gridEngine.movementStopped().subscribe(({ charId }) => {
       if (charId === 'player') {
-        this.eventHandler.checkPositionEvent(this.collection.getCollectionOf('event-trigger').filterByIdUsingFlagMap(this.collection.flagMap), this.modal)
+        this.eventHandler.checkPositionEvent(this.collection.getCollectionOf('event-trigger').filterByPropertyUsingFlagMap(this.collection.getFlagMap), this.modal)
         this.eventHandler.animateBushPosition(this.collection.getCollectionOf('bush'))
-
       }
+
+      this.collection.getAllNpcNames().forEach(npc => {
+        if (charId === npc) {
+          this.interact.setNpcCollection = this.collection.updatedNpcCollectionPositions(this.eventHandler.syncUpdatedNpcMsgEvents())
+        }
+      })
     })
+
+    
+    console.log(this.collection.getFlagMap)
+    console.log(this.collection.getCollectionOf('event-trigger').filterByPropertyUsingFlagMap(this.collection.getFlagMap))
   }
 
   update() {
-    // this.eventHandler.checkPositionEvent(this.collection.getCollectionOf('event-trigger').filterByIdUsingFlagMap(this.collection.flagMap), this.modal)
-
     this.controls.movementInput(this.gridEngine, this.interact.getControllStatus)
-    this.interact.setNpcCollection = this.collection.updatedNpcCollectionPositions(this.eventHandler.syncUpdatedNpcMsgEvents())
-
   }
 }
 

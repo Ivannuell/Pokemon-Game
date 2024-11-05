@@ -44,7 +44,7 @@ export class RoomScene extends BaseScene {
     this.collection = new ObjectCollection(this.objectList, this.gridEngine)
     this.objectHandler = new ObjectHandler(this, this.gridEngine)
     this.eventHandler = new SceneEventHandler(this, this.gridEngine, this.collection)
-    this.interact = new InteractionHandler(this, this.gridEngine, this.collection, this.eventHandler)
+    this.interact = new InteractionHandler(this, this.gridEngine, this.collection)
 
     this.eventHandler.handleDoorEvent_Inside(this.collection.getCollectionOf('door-inside'))
     

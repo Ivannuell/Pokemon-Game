@@ -3,7 +3,6 @@ import GridEngine, { Direction } from "grid-engine";
 import { Scene } from "phaser";
 import { ModalMessageHandler } from "./ModalMessageHandler";
 import { ObjectCollection } from "./ObjectCollection";
-import { InteractionHandler } from "./InteractionHandler";
 import '../MyArrayFunc'
 
 export class SceneEventHandler {
@@ -15,12 +14,7 @@ export class SceneEventHandler {
     this.updatedMsgEventsNpc = this.collectionHandler.getCollectionOf('npc')
   }
 
-  private interact!: InteractionHandler
   private updatedMsgEventsNpc!: Phaser.Types.Tilemaps.TiledObject[];
-
-  setInteractHandler(interactHandler: InteractionHandler) {
-    this.interact = interactHandler
-  }
 
   handleDoorEvent_Outside(doorCollection: any[]) {
     doorCollection.forEach(door => {
@@ -48,8 +42,6 @@ export class SceneEventHandler {
         this.gridEngine.getPosition('player').x === pos.x &&
         this.gridEngine.getPosition('player').y === pos.y
       ) {
-        console.log(pos)
-
         this.activateEvent(pos.properties.getGameObjProperty('event_id'), modal)
       }
     })
@@ -85,23 +77,9 @@ export class SceneEventHandler {
     })
   }
 
-  updateEventTrigger(eventId: string, newVal: boolean, type: string) {
-
-    if (type === 'position') {
-      this.collectionHandler.getCollectionOf('event-trigger')
-        .filterCollectionByProperty('event_id', eventId)
-        .forEach((event: { id: number; }) => {
-          this.collectionHandler.flagMap.set(event.id, newVal)
-        })
-    }
-
-    if (type === 'npc') {
-      this.collectionHandler.flagMap.set(
-      this.collectionHandler.getEventList.filter(event => {
-        return event.eventName === eventId
-      })[0].eventId, newVal)
-    }
-  }
+  // updateEventTrigger(eventId: string, newVal: boolean) {
+  //   this.collectionHandler.updateEventFlagStatus(eventId, newVal)
+  // }
 
   activateEvent(eventId: string, modal: ModalMessageHandler) {
     switch (eventId) {
@@ -109,14 +87,14 @@ export class SceneEventHandler {
         modal.showModalMessage('You can\'t go there its dangerous::Go see prof oak for assitance')
         this.gridEngine.moveTo('player', { x: 28, y: 18 })
 
-        this.updateEventTrigger('go-back-2', true, 'npc')
-        this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Oak', 'You can go now')
+        this.collectionHandler.updateEventFlagStatus('go-back-2', true)
+        
+        this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Oak', 'Outside you start your adventure and fullfil your dreams::Are you ready for that?::Well then go on and soar high')
         this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Blue', 'So you want to go on an adventure huh::Well good luck yo!')
         break;
       }
     }
   }
-
 
   updatedNpcMsgEvent(npcCollection: any[], npc: string, msg: string) {
     this.updatedMsgEventsNpc = npcCollection.changeNpcMessageProperty(npc, msg)

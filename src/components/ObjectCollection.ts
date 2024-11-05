@@ -12,52 +12,60 @@ export class ObjectCollection {
 
   }
 
-  flagMap: Map<number, boolean> = new Map<number, boolean>
   bushSprites: Phaser.GameObjects.Sprite[] = []
+
+  private flagMap = new Map<string, boolean>
   private eventList = [
-    { eventId: 10001, eventName: 'go-back-2', initValue: false }
+    {eventName: 'go-back-2', initValue: false }
   ]
 
   get getEventList() {
     return this.eventList
   }
 
-  //FlagMap Abstractions
-  
-
-
-  referenceIdtoEventName(id: number) {
-    const obj: { eventId: number, eventName: string, initValue: any }[] =
-      this.eventList.filter(e => {
-        return id === e.eventId
-      })
-
-    // return obj.eventName
-    return obj[0].eventName
+  get getFlagMap() {
+    return this.flagMap
   }
 
-  referenceEventNametoId(eventName: string) {
-    const obj: { eventId: number, eventName: string, initValue: any }[] =
-      this.eventList.filter(e => {
-        return eventName === e.eventName
-      })
-
-    return obj[0].eventId
-  }
-
-  getAllKeys() {
-    const array: string[] = []
-    this.objectList.forEach(obj => {
-      array.push(obj.type)
+  setPositionEventsToFlagMap() {
+    this.getCollectionOf('event-trigger').forEach(event => {
+      this.flagMap.set(event.properties.getGameObjProperty('event_id'), event.properties.getGameObjProperty('active'))
     })
-    return array
   }
+
+  setNpcEventsToFlagMap() {
+    this.eventList.forEach(event => {
+      this.flagMap.set(event.eventName, event.initValue)
+    })
+  }
+
+
+  //FlagMap Abstractions
+  getEventFlagStatus(eventName: string): boolean {
+    return this.flagMap.get(eventName) ?? false
+  }
+
+  updateEventFlagStatus(eventName: string, newVal: boolean) {
+    this.flagMap.set(eventName, newVal)
+  }
+
+  getAllFlagMapKeys() {
+    return [...this.flagMap.keys()]
+  }
+
+  
 
   getCollectionOf(key: string) {
     return this.objectList.filter(obj => {
       return obj.type === key
     }).map(obj => {
       return { ...obj, x: obj.x / 16, y: obj.y / 16 }
+    })
+  }
+
+  getAllNpcNames(): string[] {
+    return this.getCollectionOf('npc').map(npc => {
+      return npc.name
     })
   }
 
@@ -72,18 +80,6 @@ export class ObjectCollection {
   //     return {}
   //   })
   // }
-
-  setPositionEventsToFlagMap() {
-    this.getCollectionOf('event-trigger').forEach(event => {
-      this.flagMap.set(event.id, event.properties.getGameObjProperty('active'))
-    })
-  }
-
-  setNpcEventsToFlagMap() {
-    this.eventList.forEach(event => {
-      this.flagMap.set(event.eventId, event.initValue)
-    })
-  }
 
   getEventsById(): any[] {
     return this.getCollectionOf('event-trigger').filter(event => {

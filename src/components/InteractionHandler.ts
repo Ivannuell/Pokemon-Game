@@ -1,6 +1,5 @@
 import GridEngine, { Direction } from "grid-engine";
 import { ObjectCollection } from "./ObjectCollection";
-import { SceneEventHandler } from "./SceneEventManager";
 
 export class InteractionHandler {
 
@@ -8,7 +7,6 @@ export class InteractionHandler {
     private scene: Phaser.Scene,
     private gridEngine: GridEngine,
     private collectionHandler: ObjectCollection,
-    private eventHandler: SceneEventHandler
   ) {
   }
 
@@ -155,9 +153,10 @@ export class InteractionHandler {
   handleNpcInteractEvents(npc: Phaser.Types.Tilemaps.TiledObject): void {
     switch (npc.name) {
       case 'Oak': {
-        if (this.collectionHandler.flagMap.get(this.collectionHandler.referenceEventNametoId('go-back-2'))) {
-          this.eventHandler.updateEventTrigger('go-back-2', false, 'npc')
-          this.eventHandler.updateEventTrigger('go-back-1', false, 'position')
+        if (this.collectionHandler.getEventFlagStatus('go-back-2')) {
+          this.collectionHandler.updateEventFlagStatus('go-back-2', false)
+          this.collectionHandler.updateEventFlagStatus('go-back-1', false)
+          console.log(this.collectionHandler.getFlagMap)
         }
 
         break

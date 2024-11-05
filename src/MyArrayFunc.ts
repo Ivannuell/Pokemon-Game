@@ -13,9 +13,9 @@ Array.prototype.filterCollectionByProperty = function (property: string, value?:
 }
 
 
-Array.prototype.filterByIdUsingFlagMap = function (flagMap: any) {
+Array.prototype.filterByPropertyUsingFlagMap = function (flagMap: any) {
   return this.filter(event => {
-    return flagMap.get(event.id)
+    return flagMap.get(event.properties.getGameObjProperty('event_id'))
   })
 }
 
