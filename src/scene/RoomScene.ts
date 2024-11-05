@@ -70,7 +70,7 @@ export class RoomScene extends BaseScene {
 
   update() {
     
-    this.controls.movementInput(this.gridEngine, this.interact.controllable)
+    this.controls.movementInput(this.gridEngine, this.interact.getControllStatus)
     // this.interact.setNpcCollection(this.collection.updatedNpcCollectionPositions())
   }
 } 

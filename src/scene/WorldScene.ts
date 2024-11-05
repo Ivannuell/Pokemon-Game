@@ -127,8 +127,8 @@ export class WorldScene extends BaseScene {
   update() {
     // this.eventHandler.checkPositionEvent(this.collection.getCollectionOf('event-trigger').filterByIdUsingFlagMap(this.collection.flagMap), this.modal)
 
-    this.controls.movementInput(this.gridEngine, this.interact.controllable)
-    this.interact.setNpcCollection(this.collection.updatedNpcCollectionPositions(this.eventHandler.syncUpdatedNpcMsgEvents()))
+    this.controls.movementInput(this.gridEngine, this.interact.getControllStatus)
+    this.interact.setNpcCollection = this.collection.updatedNpcCollectionPositions(this.eventHandler.syncUpdatedNpcMsgEvents())
 
   }
 }

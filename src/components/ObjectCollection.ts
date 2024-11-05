@@ -14,9 +14,17 @@ export class ObjectCollection {
 
   flagMap: Map<number, boolean> = new Map<number, boolean>
   bushSprites: Phaser.GameObjects.Sprite[] = []
-  eventList: { eventId: number, eventName: string, initValue: any }[] = [
+  private eventList = [
     { eventId: 10001, eventName: 'go-back-2', initValue: false }
   ]
+
+  get getEventList() {
+    return this.eventList
+  }
+
+  //FlagMap Abstractions
+  
+
 
   referenceIdtoEventName(id: number) {
     const obj: { eventId: number, eventName: string, initValue: any }[] =
@@ -53,8 +61,8 @@ export class ObjectCollection {
     })
   }
 
-  updatedNpcCollectionPositions(npcCollection: any[]) {
-    return npcCollection.map((npc: { name: string; }) => {
+  updatedNpcCollectionPositions(npcCollection: Phaser.Types.Tilemaps.TiledObject[]) {
+    return npcCollection.map((npc: Phaser.Types.Tilemaps.TiledObject) => {
       return { ...npc, x: this.gridEngine.getPosition(npc.name).x, y: this.gridEngine.getPosition(npc.name).y }
     })
   }

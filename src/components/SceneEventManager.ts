@@ -16,7 +16,7 @@ export class SceneEventHandler {
   }
 
   private interact!: InteractionHandler
-  private updatedMsgEventsNpc!: any[];
+  private updatedMsgEventsNpc!: Phaser.Types.Tilemaps.TiledObject[];
 
   setInteractHandler(interactHandler: InteractionHandler) {
     this.interact = interactHandler
@@ -85,16 +85,22 @@ export class SceneEventHandler {
     })
   }
 
-  updateEventTrigger(eventId: string | number, newVal: boolean) {
-    if (typeof eventId === 'number') {
-      this.collectionHandler.flagMap.set(eventId, newVal)
+  updateEventTrigger(eventId: string, newVal: boolean, type: string) {
+
+    if (type === 'position') {
+      this.collectionHandler.getCollectionOf('event-trigger')
+        .filterCollectionByProperty('event_id', eventId)
+        .forEach((event: { id: number; }) => {
+          this.collectionHandler.flagMap.set(event.id, newVal)
+        })
     }
 
-    this.collectionHandler.getCollectionOf('event-trigger')
-      .filterCollectionByProperty('event_id', eventId)
-      .forEach((event: { id: number; }) => {
-        this.collectionHandler.flagMap.set(event.id, newVal)
-      })
+    if (type === 'npc') {
+      this.collectionHandler.flagMap.set(
+      this.collectionHandler.getEventList.filter(event => {
+        return event.eventName === eventId
+      })[0].eventId, newVal)
+    }
   }
 
   activateEvent(eventId: string, modal: ModalMessageHandler) {
@@ -103,7 +109,7 @@ export class SceneEventHandler {
         modal.showModalMessage('You can\'t go there its dangerous::Go see prof oak for assitance')
         this.gridEngine.moveTo('player', { x: 28, y: 18 })
 
-        this.updateEventTrigger(this.collectionHandler.referenceEventNametoId('go-back-2'), true)
+        this.updateEventTrigger('go-back-2', true, 'npc')
         this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Oak', 'You can go now')
         this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Blue', 'So you want to go on an adventure huh::Well good luck yo!')
         break;
@@ -116,7 +122,7 @@ export class SceneEventHandler {
     this.updatedMsgEventsNpc = npcCollection.changeNpcMessageProperty(npc, msg)
   }
 
-  syncUpdatedNpcMsgEvents(){
+  syncUpdatedNpcMsgEvents() {
     return this.updatedMsgEventsNpc
   }
 
