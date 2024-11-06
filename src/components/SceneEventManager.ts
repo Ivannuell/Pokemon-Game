@@ -16,9 +16,9 @@ export class SceneEventHandler {
 
   private updatedMsgEventsNpc!: Phaser.Types.Tilemaps.TiledObject[];
 
-  handleDoorEvent_Outside(doorCollection: any[]) {
+  handleDoorEvent_Outside(doorCollection: Phaser.Types.Tilemaps.TiledObject[]) {
     doorCollection.forEach(door => {
-      this.gridEngine.steppedOn(['player'], [{ x: door.x, y: door.y }])
+      this.gridEngine.steppedOn(['player'], [{ x: door.x!, y: door.y! }])
         .subscribe(() => {
           this.scene.scene.switch('RoomScene', { room: door.properties.getGameObjProperty('room') })
           this.gridEngine.turnTowards('player', Direction.UP)
@@ -27,16 +27,16 @@ export class SceneEventHandler {
   }
 
 
-  handleDoorEvent_Inside(doorCollection: any[]) {
+  handleDoorEvent_Inside(doorCollection: Phaser.Types.Tilemaps.TiledObject[]) {
     doorCollection.forEach(door => {
-      this.gridEngine.steppedOn(['player'], [{ x: door.x, y: door.y }])
+      this.gridEngine.steppedOn(['player'], [{ x: door.x!, y: door.y! }])
         .subscribe(() => {
           this.scene.scene.switch('WorldScene')
         })
     })
   }
 
-  checkPositionEvent(eventPosCollection: any[], modal: ModalMessageHandler) {
+  checkPositionEvent(eventPosCollection: Phaser.Types.Tilemaps.TiledObject[], modal: ModalMessageHandler) {
     eventPosCollection.forEach(pos => {
       if (
         this.gridEngine.getPosition('player').x === pos.x &&
@@ -47,7 +47,7 @@ export class SceneEventHandler {
     })
   }
 
-  animateBushPosition(bushCollection: any[]) {
+  animateBushPosition(bushCollection: Phaser.Types.Tilemaps.TiledObject[]) {
     bushCollection.forEach(bush => {
       if (
         this.gridEngine.getPosition('player').x === bush.x &&
@@ -62,7 +62,7 @@ export class SceneEventHandler {
     })
   }
 
-  checkBushPosition(bushCollection: any[]) {
+  checkBushPosition(bushCollection: Phaser.Types.Tilemaps.TiledObject[]) {
     bushCollection.forEach(bush => {
       if (
         this.gridEngine.getPosition('player').x === bush.x &&
@@ -77,9 +77,6 @@ export class SceneEventHandler {
     })
   }
 
-  // updateEventTrigger(eventId: string, newVal: boolean) {
-  //   this.collectionHandler.updateEventFlagStatus(eventId, newVal)
-  // }
 
   activateEvent(eventId: string, modal: ModalMessageHandler) {
     switch (eventId) {
@@ -88,26 +85,20 @@ export class SceneEventHandler {
         this.gridEngine.moveTo('player', { x: 28, y: 18 })
 
         this.collectionHandler.updateEventFlagStatus('go-back-2', true)
-        
-        this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Oak', 'Outside you start your adventure and fullfil your dreams::Are you ready for that?::Well then go on and soar high')
+
+        this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Oak', 'Outside you start your adventure and::fullfil your dreams, Are you ready for that?::Well then go on and soar high')
         this.updatedNpcMsgEvent(this.updatedMsgEventsNpc, 'Blue', 'So you want to go on an adventure huh::Well good luck yo!')
         break;
       }
     }
   }
 
-  updatedNpcMsgEvent(npcCollection: any[], npc: string, msg: string) {
+  updatedNpcMsgEvent(npcCollection: Phaser.Types.Tilemaps.TiledObject[], npc: string, msg: string) {
     this.updatedMsgEventsNpc = npcCollection.changeNpcMessageProperty(npc, msg)
   }
 
   syncUpdatedNpcMsgEvents() {
     return this.updatedMsgEventsNpc
   }
-
-
-
-
-
-
 }
 

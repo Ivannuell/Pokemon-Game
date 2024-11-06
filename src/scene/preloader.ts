@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import WebFontLoader from "webfontloader";
 // import AnimatedTiles from "../../public/tiled/main"
 
 export class preloader extends Phaser.Scene {
@@ -30,8 +31,13 @@ export class preloader extends Phaser.Scene {
     this.load.spritesheet('waves', 'waves.png', {frameWidth: 16})
 
     // Components
-    this.load.image('top-decors', 'maps/town-1-top-deco.png')
     this.load.image('message-box-1', 'Components/message-box-1.png')
+
+    WebFontLoader.load({
+      custom: {
+        families: ['Pokemon Solid']
+      }
+    })
 
   }
   create() {
