@@ -9,7 +9,6 @@ export enum characterMappings {
 
 export class MainCharacter {
   sprite: Phaser.GameObjects.Sprite
-  
   constructor(
     private scene: Phaser.Scene,
     private spriteKey: string,

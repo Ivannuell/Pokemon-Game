@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import GridEngine from "grid-engine";
 import '../MyArrayFunc'
 
@@ -6,7 +5,7 @@ import '../MyArrayFunc'
 export class ObjectCollection {
 
   constructor(
-    private objectList: any[],
+    private objectList: Phaser.Types.Tilemaps.TiledObject[],
     private gridEngine: GridEngine
   ) {
 
@@ -53,13 +52,11 @@ export class ObjectCollection {
     return [...this.flagMap.keys()]
   }
 
-  
-
-  getCollectionOf(key: string) {
+  getCollectionOf(key: string): Phaser.Types.Tilemaps.TiledObject[] {
     return this.objectList.filter(obj => {
       return obj.type === key
     }).map(obj => {
-      return { ...obj, x: obj.x / 16, y: obj.y / 16 }
+      return { ...obj, x: obj.x! / 16, y: obj.y! / 16 }
     })
   }
 
@@ -75,16 +72,10 @@ export class ObjectCollection {
     })
   }
 
-  // updateNpcCollectionMessages() {
-  //   return this.getCollectionOf('npc').map(npc => {
-  //     return {}
-  //   })
-  // }
-
-  getEventsById(): any[] {
+  getEventsById(): Phaser.Types.Tilemaps.TiledObject[] {
     return this.getCollectionOf('event-trigger').filter(event => {
       return [...this.flagMap.keys()].map(key => {
-        return event.id === key
+        return event.id === parseInt(key)
       })
     })
   }

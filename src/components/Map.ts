@@ -26,10 +26,10 @@ export class Map  {
     })
   }
 
-  getObjectsAtObjectLayers(): object[] {
-    const array: object[] = []
-    this._map.getObjectLayerNames().forEach((layer) => {
-      this._map.getObjectLayer(layer)?.objects.forEach(object => {
+  getObjectsAtObjectLayers(): Phaser.Types.Tilemaps.TiledObject[] {
+    const array: Phaser.Types.Tilemaps.TiledObject[] = []
+    this._map.getObjectLayerNames().forEach((layer: string) => {
+      this._map.getObjectLayer(layer)?.objects.forEach((object: Phaser.Types.Tilemaps.TiledObject) => {
         array.push(object)
       })
     })
@@ -37,5 +37,6 @@ export class Map  {
     return array
   }
 
+  
 
 }

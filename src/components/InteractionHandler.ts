@@ -11,13 +11,13 @@ export class InteractionHandler {
   }
 
   private npcCollection!: Phaser.Types.Tilemaps.TiledObject[];
-  private controllable = true
   private current_action: 'interact' | 'afirm' = 'interact';
   private current_object_event!: Phaser.Types.Tilemaps.TiledObject;
   private messageCount!: string[];
+  
   private currentMessageIndex = 0;
   private MaxMessageIndex = 0;
-
+  private controllable = true
 
   get getControllStatus() {
     return this.controllable

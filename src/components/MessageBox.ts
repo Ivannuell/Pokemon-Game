@@ -52,13 +52,6 @@ export class MessageBox extends Phaser.Scene {
     this.BaseScene = this.game.scene.getScenes(true)[0]
   }
 
-  // typewriteTextWrapped(text: string) {
-  //   const lines = this.label.getWrappedText(text);
-  //   const wrappedText = lines.join('\n')
-
-  //   this.typewriteText(wrappedText)
-  // }
-
   update() {
     // console.log(this.time_event.getOverallProgress());
     if (this.time_event.getOverallProgress() === 1 && !this.ran) {

@@ -14,7 +14,7 @@ export class RoomScene extends BaseScene {
   gridEngine!: GridEngine
   controls!: PlayerControls
   interact!: InteractionHandler
-  objectList!: object[];
+  objectList!: Phaser.Types.Tilemaps.TiledObject[];
   collection!: ObjectCollection
   objectHandler!: ObjectHandler
   eventHandler!: SceneEventHandler

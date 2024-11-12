@@ -14,7 +14,7 @@ export class WorldScene extends BaseScene {
   gridEngine!: GridEngine
   controls!: PlayerControls
   interact!: InteractionHandler
-  objectList!: object[];
+  objectList!: Phaser.Types.Tilemaps.TiledObject[];
   collection!: ObjectCollection
   objectHandler!: ObjectHandler
   eventHandler!: SceneEventHandler
@@ -70,12 +70,12 @@ export class WorldScene extends BaseScene {
     this.objectHandler.moveNpcRandomly(this.collection.getCollectionOf('npc'))
 
     this.collection.getCollectionOf('bush').forEach(bush => {
-      this.collection.bushSprites.push(this.add.sprite(bush.x * 16, bush.y * 16, 'grass_tall_2', 8).setOrigin(0).setDepth(3))
+      this.collection.bushSprites.push(this.add.sprite(bush.x! * 16, bush.y! * 16, 'grass_tall_2', 8).setOrigin(0).setDepth(3))
     })
 
 
     this.collection.getCollectionOf('ocean-tile').forEach(oceanTiles => {
-      this.add.sprite(oceanTiles.x * 16, oceanTiles.y * 16, 'waves').setOrigin(0).setDepth(3).anims.play('ocean-waves')
+      this.add.sprite(oceanTiles.x! * 16, oceanTiles.y! * 16, 'waves').setOrigin(0).setDepth(3).anims.play('ocean-waves')
     })
 
 
