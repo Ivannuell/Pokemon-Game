@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import GridEngine, { Direction } from "grid-engine";
 import { Scene } from "phaser";
 import { ModalMessageHandler } from "./ModalMessageHandler";

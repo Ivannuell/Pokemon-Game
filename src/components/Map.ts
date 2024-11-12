@@ -7,7 +7,7 @@ export class Map  {
     private scene: Phaser.Scene,
     private mapKey: string
   ) {
-    this._map = this.scene.add.tilemap(this.mapKey)
+    this._map = this.scene.add.tilemap(this.mapKey);
   }
 
   get map(): Phaser.Tilemaps.Tilemap {

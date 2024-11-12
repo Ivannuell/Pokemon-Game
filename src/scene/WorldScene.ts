@@ -20,8 +20,6 @@ export class WorldScene extends BaseScene {
   eventHandler!: SceneEventHandler
   modal!: ModalMessageHandler
 
-
-
   constructor() {
     super('WorldScene')
   }
@@ -116,13 +114,13 @@ export class WorldScene extends BaseScene {
       })
     })
 
-    
-    console.log(this.collection.getFlagMap)
-    console.log(this.collection.getCollectionOf('event-trigger').filterByPropertyUsingFlagMap(this.collection.getFlagMap))
+
   }
+
 
   update() {
     this.controls.movementInput(this.gridEngine, this.interact.getControllStatus)
   }
+
 }
 
