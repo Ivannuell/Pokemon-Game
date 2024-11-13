@@ -23,7 +23,7 @@ export class ObjectHandler {
         id: npc.name,
         sprite: this.scene.add.sprite(0,0,'characters'),
         walkingAnimationMapping: characterMappings.get(npc.name),
-        startPosition: {x: npc.x!, y: npc.y!}
+        startPosition: {x: npc.x!, y: npc.y!},
       })
     })
     return array

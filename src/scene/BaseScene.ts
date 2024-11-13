@@ -15,13 +15,12 @@ export class BaseScene extends Phaser.Scene {
     InitCharacter(posx: number, posy: number, facingDriection?: Direction) {
         this.mainCharacter = new MainCharacter(
             this,
-
-
             'characters', {
                 id: 'player',
                 walkingAnimationMapping: characterMappings.Red,
                 startPosition: {x: posx, y: posy},
-                facingDirection: facingDriection
+                facingDirection: facingDriection,
+                collides: {collisionGroups: ['npcGroup']}
             }
         )
     }

@@ -8,6 +8,7 @@ import { ObjectCollection } from "../components/ObjectCollection";
 import { ObjectHandler } from "../components/ObjectsHandler";
 import { SceneEventHandler } from "../components/SceneEventManager";
 import { ModalMessageHandler } from "../components/ModalMessageHandler";
+import { Monster } from "../components/monster/MonsterCharacter";
 
 export class WorldScene extends BaseScene {
   map!: Map
@@ -19,6 +20,7 @@ export class WorldScene extends BaseScene {
   objectHandler!: ObjectHandler
   eventHandler!: SceneEventHandler
   modal!: ModalMessageHandler
+  myMonster!: Monster 
 
   constructor() {
     super('WorldScene')
@@ -48,6 +50,11 @@ export class WorldScene extends BaseScene {
     })
 
 
+    this.myMonster = new Monster(this, this.gridEngine, 'Bulbasuar')
+    this.myMonster.setMonsterData()
+    this.myMonster.addMonster()
+    this.myMonster.startFollowingCharacter()
+
     this.collection = new ObjectCollection(this.objectList, this.gridEngine)
     this.collection.setPositionEventsToFlagMap()
     this.collection.setNpcEventsToFlagMap()
@@ -65,7 +72,10 @@ export class WorldScene extends BaseScene {
     this.objectHandler.addNPCtoMap(this.collection.getCollectionOf('npc'))
       .forEach(npc => {
         this.gridEngine.addCharacter(npc)
+        this.gridEngine.setCollisionGroups(npc.id, ['npcGroup', 'nonPlayerGroup'])
       })
+
+    this.gridEngine.setCollisionGroups('player', ['playerGroup', 'npcGroup'])
 
     this.objectHandler.moveNpcRandomly(this.collection.getCollectionOf('npc'))
 

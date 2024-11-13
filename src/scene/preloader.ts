@@ -33,6 +33,9 @@ export class preloader extends Phaser.Scene {
     // Components
     this.load.image('message-box-1', 'Components/message-box-1.png')
 
+    // Monsters
+    this.load.spritesheet('Bulbasuar', 'monsters/Bulbasuar.png', {frameWidth: 20, frameHeight: 16 })
+
     WebFontLoader.load({
       custom: {
         families: ['Pokemon Solid']
